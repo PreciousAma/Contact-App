@@ -9,27 +9,24 @@ const ContactForm = ({ setContactList, contact, setContact, isEditing, setIsEdit
     setContact({ ...contact, [event.target.name]: event.target.value });
   }
 
-  console.log({ contact });
-
   const handleSubmit = (event) => {
      event.preventDefault();
-     const payload = {...contact, id: uuidv4()}
+     const payload = { id: uuidv4(), ...contact };
 
-     const obj1 = {
-       test1: '1',
-       test2: '2'
+     if (!isEditing) {
+        setContactList((data) => {
+          return [...data, payload];
+        });
+     } else {
+       setContactList((contactList) => {
+          const contactIndex = contactList.findIndex((contact) => contact.id === payload.id);
+          const newArr = [...contactList];
+          newArr.splice(contactIndex, 1, payload);
+
+          return newArr;
+       });
+       setIsEditing(false);
      }
-
-     const pl = {
-       ...obj1,
-       test1: '6',
-       test1: '4',
-       test1: '5'
-     };
-
-     setContactList((data) => {
-       return [...data, payload];
-     });
 
      setContact({
       firstName: '',
@@ -37,8 +34,6 @@ const ContactForm = ({ setContactList, contact, setContact, isEditing, setIsEdit
       phoneNumber: ''
     })
   };
-
-  
 
   return (
     <div className="form-wrap">
