@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Contacts from './Contacts';
 import ContactForm from './ContactForm';
+
 
 const App = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,8 +13,14 @@ const App = () => {
     phoneNumber: ''
   });
 
+  useEffect(() => {
+    const contacts = JSON.parse(localStorage.getItem('contactList'));
+    localStorage.setItem('contactList', JSON.stringify(contactList));
+    // setContactList(contacts);
+  }, [contactList]);
+
   const handleClear = () => {
-    setContactList([])
+    setContactList([]);
   }
 
   const handleDelete = (contact) => {
