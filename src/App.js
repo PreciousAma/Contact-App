@@ -15,8 +15,12 @@ const App = () => {
 
   useEffect(() => {
     const contacts = JSON.parse(localStorage.getItem('contactList'));
-    localStorage.setItem('contactList', JSON.stringify(contactList));
-    // setContactList(contacts);
+    if(!contacts) localStorage.setItem('contactList', JSON.stringify(contactList));
+    setContactList(contacts);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('contactList', JSON.stringyfy(contactList));
   }, [contactList]);
 
   const handleClear = () => {
